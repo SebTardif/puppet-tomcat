@@ -196,6 +196,10 @@ define tomcat::instance($ensure="present",
     $serverdotxml = 'server.xml.tomcat6.erb'
   }
 
+  if $tomcat::params::maj_version == '7' {
+    $serverdotxml = 'server.xml.tomcat7.erb'
+  }
+
   if $tomcat::params::maj_version == '5.5' and $tomcat::params::type == 'package' {
     $catalinahome = $::osfamily ? {
       RedHat => '/usr/share/tomcat5',
@@ -207,6 +211,13 @@ define tomcat::instance($ensure="present",
     $catalinahome = $::osfamily ? {
       RedHat => '/usr/share/tomcat6',
       Debian => '/usr/share/tomcat6',
+    }
+  }
+
+  if $tomcat::params::maj_version == '7' and $tomcat::params::type == 'package' {
+    $catalinahome = $::osfamily ? {
+      RedHat => '/usr/share/tomcat7',
+      Debian => '/usr/share/tomcat7',
     }
   }
 
